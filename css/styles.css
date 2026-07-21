@@ -241,7 +241,7 @@
   }
   .offer-bg::after{
     content:'';position:absolute;inset:0;
-    background:linear-gradient(0deg, rgba(6,8,7,0.92) 10%, rgba(6,8,7,0.25) 60%, rgba(6,8,7,0.55) 100%);
+    background:linear-gradient(0deg, rgba(6,8,7,0.95) 20%, rgba(6,8,7,0.55) 55%, rgba(6,8,7,0.7) 100%);
   }
   .offer-body{position:relative;z-index:2;width:100%;}
   .offer-body h3{
