@@ -1,8 +1,8 @@
-# Green Aqua Delhi
+# Green Aqua Delhi 🌱
 
-A single-page marketing site for Green Aqua Delhi — a Delhi-based aquascaping studio specializing in planted aquariums, aquatic plants, and premium livestock.
+A marketing site for Green Aqua Delhi — a Delhi-based aquascaping studio specializing in planted aquariums, aquatic plants, and premium livestock.
 
-**Live site:**
+Live site: https://www.greenaquadelhi.in
 
 ## Features
 
@@ -23,16 +23,14 @@ A single-page marketing site for Green Aqua Delhi — a Delhi-based aquascaping 
 
 ## Project structure
 
-```
-.
-├── index.html      # markup only
+```text
+├── index.html          # markup only
 ├── css/
-│   └── styles.css  # all styles
+│   └── styles.css      # all styles
 ├── js/
-│   └── script.js   # all scripts
-└── assets/         # site imagery
+│   └── script.js       # all scripts
+└── assets/             # site imagery
 ```
-
 ## Deployment
 
 Deployed on [Vercel](https://vercel.com). Every push to `main` redeploys automatically.
