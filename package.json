@@ -1,0 +1,23 @@
+{
+  "name": "primary",
+  "version": "1.0.0",
+  "description": "A single-page marketing site for Green Aqua Delhi — a Delhi-based aquascaping studio specializing in planted aquariums, aquatic plants, and premium livestock.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abh1shhek/green-aqua-delhi.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abh1shhek/green-aqua-delhi/issues"
+  },
+  "homepage": "https://github.com/abh1shhek/green-aqua-delhi#readme",
+  "dependencies": {
+    "@vercel/speed-insights": "^2.0.0"
+  }
+}
