@@ -1,4 +1,4 @@
-# Green Aqua Delhi 🌱
+# Green Aqua Delhi
 
 A marketing site for Green Aqua Delhi — a Delhi-based aquascaping studio specializing in planted aquariums, aquatic plants, and premium livestock.
 
