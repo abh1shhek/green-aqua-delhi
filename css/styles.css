@@ -183,6 +183,29 @@
 
   .doodle{position:absolute;pointer-events:none;opacity:0.16;color:var(--emerald-bright);z-index:0;}
   @media (max-width:900px){.doodle{display:none;}}
+/* Infinite marquee ticker */
+.ticker{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  background:var(--bg-alt);overflow:hidden;padding:22px 0;
+}
+.ticker-track{
+  display:flex;width:max-content;
+  animation:ticker-scroll 28s linear infinite;
+}
+.ticker:hover .ticker-track{animation-play-state:paused;}
+.ticker-item{
+  display:flex;align-items:center;gap:14px;
+  font-family:var(--display);font-weight:600;font-size:1.15rem;
+  color:var(--ink-dim);white-space:nowrap;padding:0 28px;
+}
+.ticker-item .dot{color:var(--emerald-bright);}
+@keyframes ticker-scroll{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
+@media (prefers-reduced-motion: reduce){
+  .ticker-track{animation:none;overflow-x:auto;}
+}
 
   /* ---------- ABOUT ---------- */
   .about{background:var(--bg-alt);border-top:1px solid var(--line);border-bottom:1px solid var(--line);position:relative;}
