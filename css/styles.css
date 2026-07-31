@@ -194,8 +194,9 @@
 }
 .ticker:hover .ticker-track{animation-play-state:paused;}
 .ticker-item{
-  display:flex;align-items:center;gap:14px;
-  font-family:var(--display);font-weight:600;font-size:1.15rem;
+  display:flex;align-items:center;gap:16px;
+  font-family:var(--display);font-weight:800;font-size:1.05rem;
+  letter-spacing:0.06em;text-transform:uppercase;
   color:var(--ink-dim);white-space:nowrap;padding:0 28px;
 }
 .ticker-item .dot{color:var(--emerald-bright);}
@@ -253,7 +254,7 @@
   }
 
   /* ---------- OFFER ---------- */
-  .offer{position:relative;padding:0;}
+  .offer{position:relative;padding:72px 0 0;}
   .offer-tabs{
     position:relative;min-height:640px;display:flex;align-items:flex-end;
     padding:80px 0;overflow:hidden;
