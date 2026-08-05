@@ -125,7 +125,7 @@
   if(!el) return;
   const text = el.dataset.text || '';
   const letters = Array.from(text);
-  const radius = 44;
+  const radius = 62;
   letters.forEach((letter, i) => {
     const angle = (360 / letters.length) * i;
     const span = document.createElement('span');
