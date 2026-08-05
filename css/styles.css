@@ -438,3 +438,39 @@
   @media (prefers-reduced-motion: reduce){
     *{animation:none !important;transition:none !important;}
   }
+/* Circular spinning badge */
+.footer-col--offer{display:flex;flex-direction:column;align-items:flex-start;}
+.footer-col--offer .circular-text{margin-top:40px;}
+
+.circular-text{
+  position:relative;width:110px;height:110px;flex-shrink:0;
+  animation:circular-spin 20s linear infinite;
+}
+.circular-text:hover{animation-duration:6s;}
+.circular-text span{
+  position:absolute;top:50%;left:50%;
+  font-family:var(--display);font-weight:700;font-size:0.7rem;
+  letter-spacing:0.02em;color:var(--emerald-bright);
+  transform-origin:0 0;
+}
+.circular-text::after{
+  content:'◆';position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  color:var(--emerald-bright);font-size:0.9rem;
+}
+@keyframes circular-spin{
+  from{transform:rotate(0deg);}
+  to{transform:rotate(360deg);}
+}
+@media (prefers-reduced-motion: reduce){
+  .circular-text{animation:none;}
+}
+
+/* Mobile: sits parallel (beside) "What We Offer" */
+@media (max-width:640px){
+  .footer-col--offer{
+    flex-direction:row;justify-content:space-between;
+    align-items:flex-start;flex-wrap:wrap;
+  }
+  .footer-col--offer .circular-text{margin-top:0;}
+}
