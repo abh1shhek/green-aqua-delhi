@@ -126,12 +126,27 @@
   const text = el.dataset.text || '';
   const letters = Array.from(text);
   const radius = 62;
+  const probe = document.createElement('span');
+  probe.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;font-family:var(--display);font-weight:700;font-size:0.85rem;';
+  document.body.appendChild(probe);
+
+  const widths = letters.map(l => {
+    probe.textContent = l === ' ' ? '\u00A0' : l;
+    return probe.getBoundingClientRect().width;
+  });
+  document.body.removeChild(probe);
+
+  const totalWidth = widths.reduce((a, b) => a + b, 0);
+  let cumulative = 0;
+
   letters.forEach((letter, i) => {
-    const angle = (360 / letters.length) * i;
+    const center = cumulative + widths[i] / 2;
+    const angle = (center / totalWidth) * 360;
+    cumulative += widths[i];
+
     const span = document.createElement('span');
     span.textContent = letter;
     span.style.transform = `rotate(${angle}deg) translate(${radius}px) rotate(90deg)`;
     el.appendChild(span);
   });
 })();
-
