@@ -450,7 +450,7 @@
 .circular-text span{
   position:absolute;top:50%;left:50%;
   font-family:var(--display);font-weight:700;font-size:0.85rem;
-  letter-spacing:0.05em;color:var(--emerald-bright);
+  color:var(--emerald-bright);
   transform-origin:0 0;
 }
 .circular-text::after{
