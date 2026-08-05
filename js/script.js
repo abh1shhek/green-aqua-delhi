@@ -120,5 +120,18 @@
       offerBg.style.opacity = 1;
     }, 250);
   }));
+(function(){
+  const el = document.getElementById('circularText');
+  if(!el) return;
+  const text = el.dataset.text || '';
+  const letters = Array.from(text);
+  const radius = 44;
+  letters.forEach((letter, i) => {
+    const angle = (360 / letters.length) * i;
+    const span = document.createElement('span');
+    span.textContent = letter;
+    span.style.transform = `rotate(${angle}deg) translate(${radius}px) rotate(90deg)`;
+    el.appendChild(span);
+  });
+})();
 
-  // Contact form removed — social links now live in the Connect With Us panel
