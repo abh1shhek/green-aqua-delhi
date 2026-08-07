@@ -474,3 +474,48 @@
   }
   .footer-col--offer .circular-text{margin-top:0;align-self:center;}
 }
+/* Floating WhatsApp button */
+.whatsapp-float{
+  position:fixed;bottom:28px;right:28px;z-index:999;
+  display:flex;align-items:center;gap:10px;
+  padding:14px;border-radius:100px;
+  background:var(--grad-emerald);
+  color:#060907;
+  box-shadow:0 12px 30px -10px rgba(95,180,137,0.55);
+  transition:box-shadow .3s ease, transform .3s var(--ease-soft), padding .3s ease;
+  text-decoration:none;
+}
+.whatsapp-float svg{width:26px;height:26px;flex-shrink:0;}
+.whatsapp-float__label{
+  font-family:var(--display);font-weight:600;font-size:0.9rem;
+  max-width:0;overflow:hidden;white-space:nowrap;
+  opacity:0;transition:max-width .3s ease, opacity .25s ease, margin .3s ease;
+}
+.whatsapp-float:hover{
+  box-shadow:0 16px 40px -10px rgba(95,180,137,0.75);
+  transform:translateY(-3px);
+}
+.whatsapp-float:hover .whatsapp-float__label{
+  max-width:160px;opacity:1;
+}
+
+/* subtle pulse ring, echoes the .pill .dot glow elsewhere on the site */
+.whatsapp-float::after{
+  content:'';position:absolute;inset:0;border-radius:100px;
+  box-shadow:0 0 0 0 rgba(125,214,168,0.55);
+  animation:whatsapp-pulse 2.6s ease-out infinite;
+  pointer-events:none;
+}
+@keyframes whatsapp-pulse{
+  0%{box-shadow:0 0 0 0 rgba(125,214,168,0.45);}
+  70%{box-shadow:0 0 0 16px rgba(125,214,168,0);}
+  100%{box-shadow:0 0 0 0 rgba(125,214,168,0);}
+}
+@media (prefers-reduced-motion: reduce){
+  .whatsapp-float::after{animation:none;}
+}
+
+@media (max-width:640px){
+  .whatsapp-float{bottom:18px;right:18px;padding:13px;}
+  .whatsapp-float:hover .whatsapp-float__label{max-width:0;opacity:0;} /* no hover state on touch */
+}
