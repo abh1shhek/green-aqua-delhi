@@ -154,3 +154,53 @@
     el.appendChild(span);
   });
 })();
+(function(){
+  const widget = document.getElementById('whatsappWidget');
+  const tooltip = document.getElementById('whatsappTooltip');
+  const closeBtn = document.getElementById('whatsappTooltipClose');
+  if(!widget || !tooltip) return;
+
+  // --- Tooltip on load ---
+  let tooltipTimer = setTimeout(() => {
+    tooltip.classList.add('is-visible');
+    tooltipTimer = setTimeout(() => tooltip.classList.remove('is-visible'), 6000);
+  }, 3000);
+
+  closeBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    clearTimeout(tooltipTimer);
+    tooltip.classList.remove('is-visible');
+  });
+
+  // --- Hide on scroll down, show on scroll up + Auto-hide near footer ---
+  let lastScrollY = window.scrollY;
+  let scrolledDown = false;
+  let footerVisible = false;
+
+  const updateVisibility = () => {
+    if(scrolledDown || footerVisible){
+      widget.classList.add('is-hidden');
+      tooltip.classList.remove('is-visible');
+    } else {
+      widget.classList.remove('is-hidden');
+    }
+  };
+
+  window.addEventListener('scroll', () => {
+    const currentY = window.scrollY;
+    if(Math.abs(currentY - lastScrollY) > 8){
+      scrolledDown = currentY > lastScrollY && currentY > 80;
+      lastScrollY = currentY;
+      updateVisibility();
+    }
+  }, { passive: true });
+
+  const footer = document.querySelector('footer');
+  if(footer){
+    const observer = new IntersectionObserver((entries) => {
+      footerVisible = entries[0].isIntersecting;
+      updateVisibility();
+    }, { threshold: 0.15 });
+    observer.observe(footer);
+  }
+})();
