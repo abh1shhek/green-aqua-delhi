@@ -266,6 +266,4 @@
   }, { threshold: 0 });
   observer.observe(section);
 })();
-  }, { threshold: 0 });
-  observer.observe(section);
-})();
+
