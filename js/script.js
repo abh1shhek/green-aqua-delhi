@@ -214,35 +214,58 @@
   const track = document.querySelector('.reviews-ticker-track');
   if(!section || !track) return;
 
+  const collapseCard = (card) => {
+    card.classList.remove('is-expanded');
+    const btn = card.querySelector('.review-card__toggle');
+    if(btn) btn.textContent = 'Read more';
+  };
+
   const updatePause = () => {
     const anyExpanded = track.querySelector('.review-card.is-expanded');
     track.classList.toggle('is-paused', !!anyExpanded);
   };
 
+  const setActive = (card) => {
+    track.querySelectorAll('.review-card.is-active').forEach(c => {
+      if(c !== card) c.classList.remove('is-active');
+    });
+    if(card) card.classList.toggle('is-active');
+  };
+
   track.addEventListener('click', (e) => {
     const toggleBtn = e.target.closest('.review-card__toggle');
+    const card = e.target.closest('.review-card');
+    if(!card) return;
+
     if(toggleBtn){
-      const card = toggleBtn.closest('.review-card');
       const expanded = card.classList.toggle('is-expanded');
       toggleBtn.textContent = expanded ? 'Read less' : 'Read more';
+      if(expanded) setActive(card);
       updatePause();
       return;
     }
-    const card = e.target.closest('.review-card');
-    if(card) card.classList.toggle('is-active');
+
+    // tapping an already-expanded card collapses it and resumes the ticker right away
+    if(card.classList.contains('is-expanded')){
+      collapseCard(card);
+      card.classList.remove('is-active');
+      updatePause();
+      return;
+    }
+
+    setActive(card);
   });
 
   // auto-collapse everything once the section leaves view, so scrolling stays smooth
   const observer = new IntersectionObserver((entries) => {
     if(!entries[0].isIntersecting){
-      track.querySelectorAll('.review-card.is-expanded').forEach(card => {
-        card.classList.remove('is-expanded');
-        const btn = card.querySelector('.review-card__toggle');
-        if(btn) btn.textContent = 'Read more';
-      });
+      track.querySelectorAll('.review-card.is-expanded').forEach(collapseCard);
       track.querySelectorAll('.review-card.is-active').forEach(card => card.classList.remove('is-active'));
       updatePause();
     }
+  }, { threshold: 0 });
+  observer.observe(section);
+})();
   }, { threshold: 0 });
   observer.observe(section);
 })();
