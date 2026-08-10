@@ -255,7 +255,13 @@
 
     setActive(card);
   });
-
+     track.querySelectorAll('.review-card').forEach(card => {
+    card.addEventListener('mouseleave', () => {
+      if(!card.classList.contains('is-expanded')){
+        card.classList.remove('is-active');
+      }
+    });
+  });
   // auto-collapse everything once the section leaves view, so scrolling stays smooth
   const observer = new IntersectionObserver((entries) => {
     if(!entries[0].isIntersecting){
