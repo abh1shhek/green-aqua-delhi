@@ -590,7 +590,7 @@
   background:rgba(95,180,137,0.06);
   box-shadow:0 20px 40px -16px rgba(95,180,137,0.35);
 }
-.reviews-ticker-track:hover .review-card:not(:hover){opacity:0.55;}
+.reviews-ticker-track:has(.review-card:hover) .review-card:not(:hover){opacity:0.55;}
 .reviews-ticker-track:has(.review-card.is-active) .review-card:not(.is-active){opacity:0.55;}
 
 .review-card__stars{
