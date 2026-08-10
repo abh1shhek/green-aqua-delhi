@@ -257,8 +257,10 @@
   });
      track.querySelectorAll('.review-card').forEach(card => {
     card.addEventListener('mouseleave', () => {
-      if(!card.classList.contains('is-expanded')){
-        card.classList.remove('is-active');
+      card.classList.remove('is-active');
+      if(card.classList.contains('is-expanded')){
+        collapseCard(card);
+        updatePause();
       }
     });
   });
