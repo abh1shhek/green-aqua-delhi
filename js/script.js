@@ -209,4 +209,40 @@
   const dupe = document.getElementById('reviewsTickerGroupDupe');
   if(!original || !dupe) return;
   dupe.innerHTML = original.innerHTML;
+
+  const section = document.querySelector('.reviews-ticker-section');
+  const track = document.querySelector('.reviews-ticker-track');
+  if(!section || !track) return;
+
+  const updatePause = () => {
+    const anyExpanded = track.querySelector('.review-card.is-expanded');
+    track.classList.toggle('is-paused', !!anyExpanded);
+  };
+
+  track.addEventListener('click', (e) => {
+    const toggleBtn = e.target.closest('.review-card__toggle');
+    if(toggleBtn){
+      const card = toggleBtn.closest('.review-card');
+      const expanded = card.classList.toggle('is-expanded');
+      toggleBtn.textContent = expanded ? 'Read less' : 'Read more';
+      updatePause();
+      return;
+    }
+    const card = e.target.closest('.review-card');
+    if(card) card.classList.toggle('is-active');
+  });
+
+  // auto-collapse everything once the section leaves view, so scrolling stays smooth
+  const observer = new IntersectionObserver((entries) => {
+    if(!entries[0].isIntersecting){
+      track.querySelectorAll('.review-card.is-expanded').forEach(card => {
+        card.classList.remove('is-expanded');
+        const btn = card.querySelector('.review-card__toggle');
+        if(btn) btn.textContent = 'Read more';
+      });
+      track.querySelectorAll('.review-card.is-active').forEach(card => card.classList.remove('is-active'));
+      updatePause();
+    }
+  }, { threshold: 0 });
+  observer.observe(section);
 })();
