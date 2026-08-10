@@ -204,3 +204,9 @@
     observer.observe(footer);
   }
 })();
+(function(){
+  const original = document.getElementById('reviewsTickerGroup');
+  const dupe = document.getElementById('reviewsTickerGroupDupe');
+  if(!original || !dupe) return;
+  dupe.innerHTML = original.innerHTML;
+})();
