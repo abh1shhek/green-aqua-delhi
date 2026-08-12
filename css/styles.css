@@ -611,13 +611,16 @@
 }
 .review-card__text::after{
   content:'';position:absolute;left:0;right:0;bottom:0;height:2.4em;
-  background:linear-gradient(to bottom, transparent, rgba(11,13,11,0.95));
+  background:linear-gradient(to bottom, transparent, var(--bg));
   transition:opacity .3s ease;
 }
-.review-card.is-expanded{
-  z-index:50;
-  background:var(--bg);
-  box-shadow:0 30px 60px -20px rgba(0,0,0,0.6), 0 0 0 1px var(--emerald-bright);
+.review-card.is-expanded .review-card__text{
+  max-height:none;
+}
+.review-card.is-expanded .review-card__text::after{
+  opacity:0;
+}
+
 }
 .reviews-ticker-track:has(.review-card.is-expanded) .review-card:not(.is-expanded){
   opacity:0.2;
