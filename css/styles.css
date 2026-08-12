@@ -603,14 +603,19 @@
 }
 
 .review-card__text{
+  position:relative;
   color:var(--ink-dim);font-size:0.96rem;line-height:1.65;
   margin-bottom:10px;
-  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;
-  transition:-webkit-line-clamp .2s ease;
+  max-height:6.6em;overflow:hidden;
+  transition:max-height .4s ease;
 }
-.review-card.is-expanded .review-card__text{
-  -webkit-line-clamp:unset;display:block;overflow:visible;
+.review-card__text::after{
+  content:'';position:absolute;left:0;right:0;bottom:0;height:2.4em;
+  background:linear-gradient(to bottom, transparent, rgba(11,13,11,0.95));
+  transition:opacity .3s ease;
 }
+.review-card.is-expanded .review-card__text{max-height:40em;}
+.review-card.is-expanded .review-card__text::after{opacity:0;}
 
 .review-card__toggle{
   background:none;border:none;padding:0;margin-bottom:18px;
