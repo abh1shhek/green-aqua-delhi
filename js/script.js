@@ -264,6 +264,12 @@
       }
     });
   });
+     document.addEventListener('click', (e) => {
+    if(e.target.closest('.review-card')) return;
+    track.querySelectorAll('.review-card.is-expanded').forEach(collapseCard);
+    track.querySelectorAll('.review-card.is-active').forEach(card => card.classList.remove('is-active'));
+    updatePause();
+  });
   // auto-collapse everything once the section leaves view, so scrolling stays smooth
   const observer = new IntersectionObserver((entries) => {
     if(!entries[0].isIntersecting){
