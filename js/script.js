@@ -218,6 +218,23 @@
     card.classList.remove('is-expanded');
     const btn = card.querySelector('.review-card__toggle');
     if(btn) btn.textContent = 'Read more';
+       uncenterCard(card);
+  };
+     const HEADER_OFFSET = 100;
+  const overlay = document.getElementById('reviewsOverlay');
+
+  const centerCard = (card) => {
+    const rect = card.getBoundingClientRect();
+    const shiftX = (window.innerWidth / 2) - (rect.left + rect.width / 2);
+    card.style.transform = `translateX(${shiftX}px)`;
+    if(overlay) overlay.classList.add('is-visible');
+    const targetY = window.scrollY + rect.top - HEADER_OFFSET;
+    window.scrollTo({ top: targetY, behavior: 'smooth' });
+  };
+
+  const uncenterCard = (card) => {
+    card.style.transform = '';
+    if(overlay) overlay.classList.remove('is-visible');
   };
 
   const updatePause = () => {
@@ -237,10 +254,15 @@
     const card = e.target.closest('.review-card');
     if(!card) return;
 
-    if(toggleBtn){
+   if(toggleBtn){
       const expanded = card.classList.toggle('is-expanded');
       toggleBtn.textContent = expanded ? 'Read less' : 'Read more';
-      if(expanded) setActive(card);
+      if(expanded){
+        setActive(card);
+        centerCard(card);
+      } else {
+        uncenterCard(card);
+      }
       updatePause();
       return;
     }
