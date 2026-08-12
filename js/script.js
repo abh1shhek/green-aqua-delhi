@@ -223,13 +223,15 @@
      const HEADER_OFFSET = 100;
   const overlay = document.getElementById('reviewsOverlay');
 
-  const centerCard = (card) => {
+ const centerCard = (card) => {
     const rect = card.getBoundingClientRect();
     const shiftX = (window.innerWidth / 2) - (rect.left + rect.width / 2);
     card.style.transform = `translateX(${shiftX}px)`;
     if(overlay) overlay.classList.add('is-visible');
     const targetY = window.scrollY + rect.top - HEADER_OFFSET;
+    justFocused = true;
     window.scrollTo({ top: targetY, behavior: 'smooth' });
+    setTimeout(() => { justFocused = false; }, 900);
   };
 
   const uncenterCard = (card) => {
@@ -277,8 +279,11 @@
 
     setActive(card);
   });
-     track.querySelectorAll('.review-card').forEach(card => {
+    let justFocused = false;
+
+  track.querySelectorAll('.review-card').forEach(card => {
     card.addEventListener('mouseleave', () => {
+      if(justFocused) return;
       card.classList.remove('is-active');
       if(card.classList.contains('is-expanded')){
         collapseCard(card);
