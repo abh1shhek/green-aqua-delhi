@@ -633,6 +633,24 @@
   color:var(--emerald-bright);background:rgba(95,180,137,0.12);
   border:1px solid rgba(95,180,137,0.3);border-radius:100px;padding:3px 9px;
 }
+/* Scrim overlay behind the focused/expanded card */
+.reviews-overlay{
+  position:fixed;inset:0;z-index:40;
+  background:rgba(6,9,7,0.6);
+  opacity:0;pointer-events:none;
+  transition:opacity .35s ease;
+}
+.reviews-overlay.is-visible{opacity:1;pointer-events:auto;}
+
+/* Expanded card lifts above everything and gets a stronger presence */
+.review-card{position:relative;z-index:1;}
+.review-card.is-expanded{
+  z-index:50;
+  box-shadow:0 30px 60px -20px rgba(0,0,0,0.6), 0 0 0 1px var(--emerald-bright);
+}
+.review-card.is-expanded .review-card__stars{
+  filter:drop-shadow(0 0 8px rgba(95,180,137,0.6));
+}
 
 @keyframes reviews-scroll{
   from{transform:translateX(0);}
