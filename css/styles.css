@@ -556,6 +556,7 @@
 }
 /* Google Reviews infinite ticker */
 .reviews-ticker-section{
+    position:relative;
   padding:100px 0;background:var(--bg-alt);
   border-top:1px solid var(--line);border-bottom:1px solid var(--line);
   overflow:hidden;
@@ -643,10 +644,11 @@
 }
 /* Scrim overlay behind the focused/expanded card */
 .reviews-overlay{
-  position:fixed;inset:0;z-index:40;
-  background:rgba(6,9,7,0.8);
+  position:absolute;inset:0;z-index:40;
+  background:rgba(6,9,7,0.85);
   opacity:0;pointer-events:none;
   transition:opacity .35s ease;
+  border-radius:inherit;
 }
 .reviews-overlay.is-visible{opacity:1;pointer-events:auto;}
 
