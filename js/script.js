@@ -214,7 +214,8 @@
   const track = document.querySelector('.reviews-ticker-track');
   if(!section || !track) return;
 
-  const collapseCard = (card) => {
+  let justFocused = false;
+     const collapseCard = (card) => {
     card.classList.remove('is-expanded');
     const btn = card.querySelector('.review-card__toggle');
     if(btn) btn.textContent = 'Read more';
@@ -279,7 +280,6 @@
 
     setActive(card);
   });
-    let justFocused = false;
 
   track.querySelectorAll('.review-card').forEach(card => {
     card.addEventListener('mouseleave', () => {
