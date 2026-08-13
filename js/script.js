@@ -160,5 +160,19 @@
     if(!track) return;
     track.innerHTML += track.innerHTML;
   });
+
+  document.querySelectorAll('.review-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const wasActive = card.classList.contains('is-active');
+      document.querySelectorAll('.review-card.is-active').forEach(c => c.classList.remove('is-active'));
+      document.querySelectorAll('.reviews-column.is-paused').forEach(col => col.classList.remove('is-paused'));
+
+      if(!wasActive){
+        card.classList.add('is-active');
+        const column = card.closest('.reviews-column');
+        if(column) column.classList.add('is-paused');
+      }
+    });
+  });
 })();
 
