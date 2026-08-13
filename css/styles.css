@@ -573,7 +573,7 @@
   -webkit-mask-image:linear-gradient(to bottom, transparent, black 8%, black 92%, transparent);
   mask-image:linear-gradient(to bottom, transparent, black 8%, black 92%, transparent);
 }
-.reviews-column{flex:1;overflow:hidden;position:relative;}
+.reviews-column{flex:1;overflow:hidden;position:relative;padding:0 6px;box-sizing:border-box;}
 .reviews-column__track{
   display:flex;flex-direction:column;gap:24px;
   animation:col-scroll-up 32s linear infinite;
@@ -581,7 +581,8 @@
 .reviews-column--down .reviews-column__track{
   animation-name:col-scroll-down;
 }
-.reviews-column:hover .reviews-column__track{
+.reviews-column:hover .reviews-column__track,
+.reviews-column.is-paused .reviews-column__track{
   animation-play-state:paused;
 }
 
@@ -590,16 +591,24 @@
   border:1px solid var(--line);border-radius:14px;
   padding:28px;transition:transform .3s var(--ease-soft), border-color .3s ease, box-shadow .3s ease, background .3s ease;
 }
-.review-card:hover{
-  transform:scale(1.03);
+.review-card{
+  background:rgba(245,243,238,0.03);
+  border:1px solid var(--line);border-radius:14px;
+  padding:28px;
+  transition:border-color .3s ease, box-shadow .3s ease, background .3s ease;
+}
+.review-card:hover,
+.review-card.is-active{
   border-color:var(--emerald-bright);
-  background:rgba(95,180,137,0.06);
-  box-shadow:0 20px 40px -16px rgba(95,180,137,0.35);
+  background:rgba(95,180,137,0.07);
+  box-shadow:0 0 0 1px var(--emerald-bright), 0 20px 40px -18px rgba(95,180,137,0.4);
 }
 .review-card__stars{color:var(--emerald-bright);font-size:0.8rem;letter-spacing:2px;margin-bottom:14px;}
-.review-card:hover .review-card__stars{filter:drop-shadow(0 0 6px rgba(95,180,137,0.5));}
+.review-card:hover .review-card__stars,
+.review-card.is-active .review-card__stars{filter:drop-shadow(0 0 6px rgba(95,180,137,0.5));}
 .review-card__text{color:var(--ink-dim);font-size:0.96rem;line-height:1.65;margin-bottom:18px;}
-.review-card:hover .review-card__text{color:var(--ink);}
+.review-card:hover .review-card__text,
+.review-card.is-active .review-card__text{color:var(--ink);}
 .review-card__author-block{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .review-card__author{font-family:var(--display);font-weight:800;font-size:0.95rem;color:var(--ink);}
 .review-card__badge{
