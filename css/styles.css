@@ -660,6 +660,9 @@
 .review-card.is-expanded .review-card__stars{
   filter:drop-shadow(0 0 8px rgba(95,180,137,0.6));
 }
+.review-card.is-expanded .review-card__text{
+  color:var(--ink);
+}
 
 @keyframes reviews-scroll{
   from{transform:translateX(0);}
