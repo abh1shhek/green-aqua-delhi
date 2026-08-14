@@ -426,6 +426,7 @@
     .wrap{padding:0 24px;}
     nav{padding:20px 24px;}
     .hero{padding:120px 24px 70px;}
+      .scroll-cue{display:none;}
   }
 
   @media (max-width:480px){
