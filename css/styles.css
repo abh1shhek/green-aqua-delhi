@@ -146,6 +146,16 @@
     font-size:1.2rem;color:var(--ink-dim);max-width:520px;margin-bottom:44px;line-height:1.5;
   }
   .pill-row{display:flex;gap:14px;flex-wrap:wrap;}
+.pill-row .pill{
+    opacity:0;transform:translateY(16px);
+    animation:pill-in .7s var(--ease) forwards;
+  }
+  .pill-row .pill:nth-child(1){animation-delay:1.15s;}
+  .pill-row .pill:nth-child(2){animation-delay:1.28s;}
+  .pill-row .pill:nth-child(3){animation-delay:1.41s;}
+  @keyframes pill-in{
+    to{opacity:1;transform:translateY(0);}
+  }
   .pill{
     display:inline-flex;align-items:center;gap:10px;
     padding:12px 22px;border-radius:100px;
