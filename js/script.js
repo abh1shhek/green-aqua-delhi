@@ -183,102 +183,79 @@
 
   const ctx = canvas.getContext('2d');
   let w, h;
-  let ambient = [];
-  let bursts = [];
+  let particles = [];
   const colors = ['125,214,168', '198,168,110'];
-  const mouse = { x:-999, y:-999 };
+  const mouse = { x:-999, y:-999, active:false };
+  let lastSpawn = 0;
 
   const resize = () => {
     w = canvas.width = window.innerWidth;
     h = canvas.height = window.innerHeight;
   };
-
-  const spawnAmbient = () => {
-    const count = Math.min(70, Math.floor((w * h) / 16000));
-    ambient = Array.from({ length: count }, () => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      r: Math.random() * 2.4 + 1.4,
-      baseSpeed: Math.random() * 0.4 + 0.2,
-      drift: Math.random() * 0.6 - 0.3,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      alpha: Math.random() * 0.4 + 0.3,
-      vx: 0, vy: 0
-    }));
-  };
-
   resize();
-  spawnAmbient();
-  window.addEventListener('resize', () => { resize(); spawnAmbient(); });
+  window.addEventListener('resize', resize);
 
   window.addEventListener('pointermove', (e) => {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
-  });
-  window.addEventListener('pointerleave', () => { mouse.x = -999; mouse.y = -999; });
+    mouse.active = true;
 
-  // Click burst on interactive elements
+    const now = performance.now();
+    if(now - lastSpawn > 28){
+      lastSpawn = now;
+      const count = Math.random() < 0.5 ? 1 : 2;
+      for(let i = 0; i < count; i++){
+        particles.push({
+          x: mouse.x + (Math.random() * 10 - 5),
+          y: mouse.y + (Math.random() * 10 - 5),
+          r: Math.random() * 2.6 + 1.6,
+          vx: (Math.random() * 0.6 - 0.3),
+          vy: -(Math.random() * 0.5 + 0.3),
+          color: colors[Math.floor(Math.random() * colors.length)],
+          life: 1,
+          decay: Math.random() * 0.012 + 0.01
+        });
+      }
+    }
+  });
+  window.addEventListener('pointerleave', () => { mouse.active = false; });
+
   document.addEventListener('click', (e) => {
-    const target = e.target.closest('button, a, .pill, .review-card__toggle, .offer-pill');
-    if(!target) return;
-    const count = 18;
+    const count = 16;
     for(let i = 0; i < count; i++){
       const angle = (Math.PI * 2 * i) / count + Math.random() * 0.3;
-      const speed = Math.random() * 2.6 + 1.6;
-      bursts.push({
+      const speed = Math.random() * 2.4 + 1.4;
+      particles.push({
         x: e.clientX,
         y: e.clientY,
-        r: Math.random() * 2.5 + 2,
+        r: Math.random() * 2.8 + 2,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
         color: colors[Math.floor(Math.random() * colors.length)],
         life: 1,
-        decay: Math.random() * 0.02 + 0.018
+        decay: Math.random() * 0.018 + 0.016
       });
     }
   });
 
-  const drawParticle = (x, y, r, colorRgb, alpha) => {
-    ctx.beginPath();
-    ctx.arc(x, y, r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(${colorRgb},${alpha})`;
-    ctx.shadowColor = `rgba(${colorRgb},${alpha * 0.8})`;
-    ctx.shadowBlur = r * 2.5;
-    ctx.fill();
-  };
-
   const tick = () => {
     ctx.clearRect(0, 0, w, h);
 
-    ambient.forEach(p => {
-      const dx = p.x - mouse.x, dy = p.y - mouse.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      const pushRadius = 140;
-      if(dist < pushRadius){
-        const force = (1 - dist / pushRadius) * 2.2;
-        p.vx += (dx / (dist || 1)) * force;
-        p.vy += (dy / (dist || 1)) * force;
-      }
-      p.vx *= 0.92;
-      p.vy *= 0.92;
-      p.x += p.vx + p.drift * 0.15;
-      p.y += p.vy - p.baseSpeed;
+    particles = particles.filter(p => p.life > 0);
+    particles.forEach(p => {
+      p.vy -= 0.006;
+      p.vx *= 0.98;
+      p.vy *= 0.98;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life -= p.decay;
 
-      if(p.y < -10){ p.y = h + 10; p.x = Math.random() * w; }
-      if(p.x < -10) p.x = w + 10;
-      if(p.x > w + 10) p.x = -10;
-
-      drawParticle(p.x, p.y, p.r, p.color, p.alpha);
-    });
-
-    bursts = bursts.filter(b => b.life > 0);
-    bursts.forEach(b => {
-      b.x += b.vx;
-      b.y += b.vy;
-      b.vx *= 0.94;
-      b.vy *= 0.94;
-      b.life -= b.decay;
-      drawParticle(b.x, b.y, b.r * b.life, b.color, b.life * 0.9);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r * Math.max(p.life, 0), 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.color},${p.life * 0.85})`;
+      ctx.shadowColor = `rgba(${p.color},${p.life * 0.6})`;
+      ctx.shadowBlur = p.r * 3;
+      ctx.fill();
     });
 
     ctx.shadowBlur = 0;
