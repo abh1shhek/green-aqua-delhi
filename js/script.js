@@ -175,4 +175,76 @@
     });
   });
 })();
+(function(){
+  const canvas = document.getElementById('heroParticles');
+  const hero = document.querySelector('.hero');
+  if(!canvas || !hero) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if(window.matchMedia('(max-width:640px)').matches) return;
+
+  const ctx = canvas.getContext('2d');
+  let w, h, particles = [];
+  const colors = ['rgba(125,214,168,', 'rgba(198,168,110,'];
+  const mouse = { x:-999, y:-999 };
+
+  const resize = () => {
+    const rect = hero.getBoundingClientRect();
+    w = canvas.width = rect.width;
+    h = canvas.height = rect.height;
+  };
+
+  const spawn = () => {
+    const count = Math.min(50, Math.floor((w * h) / 22000));
+    particles = Array.from({ length: count }, () => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      r: Math.random() * 2 + 0.8,
+      baseSpeed: Math.random() * 0.35 + 0.15,
+      drift: Math.random() * 0.6 - 0.3,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      alpha: Math.random() * 0.35 + 0.15,
+      vx: 0, vy: 0
+    }));
+  };
+
+  resize();
+  spawn();
+  window.addEventListener('resize', () => { resize(); spawn(); });
+
+  hero.addEventListener('pointermove', (e) => {
+    const rect = hero.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+  });
+  hero.addEventListener('pointerleave', () => { mouse.x = -999; mouse.y = -999; });
+
+  const tick = () => {
+    ctx.clearRect(0, 0, w, h);
+    particles.forEach(p => {
+      const dx = p.x - mouse.x, dy = p.y - mouse.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const pushRadius = 110;
+      if(dist < pushRadius){
+        const force = (1 - dist / pushRadius) * 1.8;
+        p.vx += (dx / (dist || 1)) * force;
+        p.vy += (dy / (dist || 1)) * force;
+      }
+      p.vx *= 0.92;
+      p.vy *= 0.92;
+      p.x += p.vx + p.drift * 0.15;
+      p.y += p.vy - p.baseSpeed;
+
+      if(p.y < -10){ p.y = h + 10; p.x = Math.random() * w; }
+      if(p.x < -10) p.x = w + 10;
+      if(p.x > w + 10) p.x = -10;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.color + p.alpha + ')';
+      ctx.fill();
+    });
+    requestAnimationFrame(tick);
+  };
+  tick();
+})();
 
