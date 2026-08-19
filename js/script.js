@@ -176,56 +176,86 @@
   });
 })();
 (function(){
-  const canvas = document.getElementById('heroParticles');
-  const hero = document.querySelector('.hero');
-  if(!canvas || !hero) return;
+  const canvas = document.getElementById('siteParticles');
+  if(!canvas) return;
+  if(!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  if(window.matchMedia('(max-width:640px)').matches) return;
 
   const ctx = canvas.getContext('2d');
-  let w, h, particles = [];
-  const colors = ['rgba(125,214,168,', 'rgba(198,168,110,'];
+  let w, h;
+  let ambient = [];
+  let bursts = [];
+  const colors = ['125,214,168', '198,168,110'];
   const mouse = { x:-999, y:-999 };
 
   const resize = () => {
-    const rect = hero.getBoundingClientRect();
-    w = canvas.width = rect.width;
-    h = canvas.height = rect.height;
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
   };
 
-  const spawn = () => {
-    const count = Math.min(50, Math.floor((w * h) / 22000));
-    particles = Array.from({ length: count }, () => ({
+  const spawnAmbient = () => {
+    const count = Math.min(70, Math.floor((w * h) / 16000));
+    ambient = Array.from({ length: count }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
-      r: Math.random() * 2 + 0.8,
-      baseSpeed: Math.random() * 0.35 + 0.15,
+      r: Math.random() * 2.4 + 1.4,
+      baseSpeed: Math.random() * 0.4 + 0.2,
       drift: Math.random() * 0.6 - 0.3,
       color: colors[Math.floor(Math.random() * colors.length)],
-      alpha: Math.random() * 0.35 + 0.15,
+      alpha: Math.random() * 0.4 + 0.3,
       vx: 0, vy: 0
     }));
   };
 
   resize();
-  spawn();
-  window.addEventListener('resize', () => { resize(); spawn(); });
+  spawnAmbient();
+  window.addEventListener('resize', () => { resize(); spawnAmbient(); });
 
-  hero.addEventListener('pointermove', (e) => {
-    const rect = hero.getBoundingClientRect();
-    mouse.x = e.clientX - rect.left;
-    mouse.y = e.clientY - rect.top;
+  window.addEventListener('pointermove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
   });
-  hero.addEventListener('pointerleave', () => { mouse.x = -999; mouse.y = -999; });
+  window.addEventListener('pointerleave', () => { mouse.x = -999; mouse.y = -999; });
+
+  // Click burst on interactive elements
+  document.addEventListener('click', (e) => {
+    const target = e.target.closest('button, a, .pill, .review-card__toggle, .offer-pill');
+    if(!target) return;
+    const count = 18;
+    for(let i = 0; i < count; i++){
+      const angle = (Math.PI * 2 * i) / count + Math.random() * 0.3;
+      const speed = Math.random() * 2.6 + 1.6;
+      bursts.push({
+        x: e.clientX,
+        y: e.clientY,
+        r: Math.random() * 2.5 + 2,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        life: 1,
+        decay: Math.random() * 0.02 + 0.018
+      });
+    }
+  });
+
+  const drawParticle = (x, y, r, colorRgb, alpha) => {
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${colorRgb},${alpha})`;
+    ctx.shadowColor = `rgba(${colorRgb},${alpha * 0.8})`;
+    ctx.shadowBlur = r * 2.5;
+    ctx.fill();
+  };
 
   const tick = () => {
     ctx.clearRect(0, 0, w, h);
-    particles.forEach(p => {
+
+    ambient.forEach(p => {
       const dx = p.x - mouse.x, dy = p.y - mouse.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      const pushRadius = 110;
+      const pushRadius = 140;
       if(dist < pushRadius){
-        const force = (1 - dist / pushRadius) * 1.8;
+        const force = (1 - dist / pushRadius) * 2.2;
         p.vx += (dx / (dist || 1)) * force;
         p.vy += (dy / (dist || 1)) * force;
       }
@@ -238,13 +268,24 @@
       if(p.x < -10) p.x = w + 10;
       if(p.x > w + 10) p.x = -10;
 
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = p.color + p.alpha + ')';
-      ctx.fill();
+      drawParticle(p.x, p.y, p.r, p.color, p.alpha);
     });
+
+    bursts = bursts.filter(b => b.life > 0);
+    bursts.forEach(b => {
+      b.x += b.vx;
+      b.y += b.vy;
+      b.vx *= 0.94;
+      b.vy *= 0.94;
+      b.life -= b.decay;
+      drawParticle(b.x, b.y, b.r * b.life, b.color, b.life * 0.9);
+    });
+
+    ctx.shadowBlur = 0;
     requestAnimationFrame(tick);
   };
+  tick();
+})();
   tick();
 })();
 
