@@ -3,6 +3,35 @@
      Fades the whole page in once fonts/layout have settled, and
      kicks off the hero zoom-out a beat later for a composed entry.
   ============================================================ */
+/* ============================================================
+   LENIS SMOOTH SCROLL
+============================================================ */
+let lenis;
+if(typeof Lenis !== 'undefined' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  lenis = new Lenis({
+    duration: 1.1,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+    smoothTouch: false
+  });
+
+  const raf = (time) => {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  };
+  requestAnimationFrame(raf);
+
+  // Make in-page nav links (Gallery, About, etc.) scroll smoothly too
+  document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const target = document.querySelector(link.getAttribute('href'));
+      if(target){
+        e.preventDefault();
+        lenis.scrollTo(target, { offset: -80 });
+      }
+    });
+  });
+}
   document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('loaded');
     requestAnimationFrame(() => {
