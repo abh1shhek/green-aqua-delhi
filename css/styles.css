@@ -167,6 +167,10 @@
     transition:transform .35s var(--ease-soft), border-color .3s ease, background .3s ease;
   }
   .pill:hover{border-color:rgba(125,214,168,0.45);background:rgba(255,255,255,0.09);}
+  .pill:focus-visible{
+    outline:2px solid var(--emerald-bright);outline-offset:3px;
+    border-color:rgba(125,214,168,0.45);background:rgba(255,255,255,0.09);
+  }
   .pill .dot{width:7px;height:7px;border-radius:50%;background:var(--emerald-bright);box-shadow:0 0 10px var(--emerald-bright);}
   .scroll-cue{
     position:absolute;bottom:34px;left:50%;transform:translateX(-50%);
