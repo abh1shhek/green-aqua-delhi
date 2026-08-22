@@ -292,3 +292,34 @@ if(typeof Lenis !== 'undefined' && !window.matchMedia('(prefers-reduced-motion: 
   };
   tick();
 })();
+/* ============================================================
+   NAV DOCK MAGNIFICATION
+   Links grow and lift slightly as the cursor nears them,
+   echoing a macOS-dock-style proximity effect.
+============================================================ */
+if(window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+   !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  const navLinksEl = document.getElementById('navLinks');
+  if(navLinksEl){
+    const dockLinks = navLinksEl.querySelectorAll('.dock-link');
+    const PROXIMITY = 110;
+    const MAX_SCALE = 1.16;
+    const MAX_LIFT = 5;
+
+    navLinksEl.addEventListener('pointermove', (e) => {
+      dockLinks.forEach(link => {
+        const rect = link.getBoundingClientRect();
+        const center = rect.left + rect.width / 2;
+        const dist = Math.abs(e.clientX - center);
+        const influence = Math.max(0, 1 - dist / PROXIMITY);
+        const scale = 1 + influence * (MAX_SCALE - 1);
+        const lift = influence * MAX_LIFT;
+        link.style.transform = `translateY(-${lift}px) scale(${scale})`;
+      });
+    });
+
+    navLinksEl.addEventListener('pointerleave', () => {
+      dockLinks.forEach(link => { link.style.transform = ''; });
+    });
+  }
+}
