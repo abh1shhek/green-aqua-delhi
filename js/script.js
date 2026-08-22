@@ -323,3 +323,27 @@ if(window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
     });
   }
 }
+/* ============================================================
+   ACTIVE NAV LINK ON SCROLL
+============================================================ */
+(function(){
+  const sections = ['gallery', 'about', 'offer', 'contact']
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+  const dockLinks = document.querySelectorAll('.dock-link');
+  if(!sections.length || !dockLinks.length) return;
+
+  const setActiveLink = (id) => {
+    dockLinks.forEach(link => {
+      link.classList.toggle('is-current', link.getAttribute('href') === `#${id}`);
+    });
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) setActiveLink(entry.target.id);
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+
+  sections.forEach(section => observer.observe(section));
+})();
