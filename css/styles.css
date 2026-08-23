@@ -84,8 +84,8 @@
   }
   .logo em{font-style:italic;font-weight:500;color:var(--ink-dim);}
   .nav-links{display:flex;gap:40px;align-items:center;}
+  .nav-links a svg{display:none;}
   .nav-links a{
-        .nav-links a svg{display:none;}
     font-family:var(--display);
     font-weight:600;
     font-size:0.98rem;
