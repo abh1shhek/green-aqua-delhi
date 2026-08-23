@@ -43,12 +43,25 @@ if(typeof Lenis !== 'undefined' && !window.matchMedia('(prefers-reduced-motion: 
      MOBILE NAV TOGGLE
   ============================================================ */
   const navToggle = document.getElementById('navToggle');
-  const navLinks = document.getElementById('navLinks');
-  navToggle.addEventListener('click', () => {
-  navLinks.classList.toggle('open');
-  navToggle.classList.toggle('open');
+const navLinks = document.getElementById('navLinks');
+const navOverlay = document.getElementById('navOverlay');
+
+const closeMobileNav = () => {
+  navLinks.classList.remove('open');
+  navToggle.classList.remove('open');
+  navOverlay.classList.remove('open');
+};
+const openMobileNav = () => {
+  navLinks.classList.add('open');
+  navToggle.classList.add('open');
+  navOverlay.classList.add('open');
+};
+
+navToggle.addEventListener('click', () => {
+  navLinks.classList.contains('open') ? closeMobileNav() : openMobileNav();
 });
-  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+navOverlay.addEventListener('click', closeMobileNav);
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileNav));
 
   /* ============================================================
      HEADER FROSTED-GLASS STATE ON SCROLL
