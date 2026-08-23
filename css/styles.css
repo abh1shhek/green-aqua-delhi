@@ -457,7 +457,7 @@
       width:100%;padding:15px 16px;border-radius:14px;
       color:var(--ink);
     }
-    .nav-links a svg{flex-shrink:0;color:var(--ink-dim);transition:color .2s ease;}
+    .nav-links a svg{display:block;flex-shrink:0;color:var(--ink-dim);transition:color .2s ease;}
     .nav-links a span{flex:1;text-align:left;}
     .nav-links a .chev{opacity:0.5;}
     .nav-links a::after{display:none;}
