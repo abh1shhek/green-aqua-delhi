@@ -412,6 +412,25 @@
   .footer-col h5{font-family:var(--display);font-weight:700;margin-bottom:20px;font-size:1rem;}
   .footer-col a{display:block;color:var(--ink-dim);margin-bottom:14px;font-size:0.95rem;transition:color .2s ease;}
   .footer-col a:hover{color:var(--emerald-bright);}
+.footer-credit{
+  text-align:center;
+  margin-bottom:28px;
+  font-family:var(--display);
+  font-size:0.9rem;
+  font-weight:800;
+  color:var(--ink);
+}
+
+.footer-credit a{
+  font-style:italic;
+  font-weight:500;
+  color:var(--ink-dim);
+  transition:color .25s ease;
+}
+
+.footer-credit a:hover{
+  color:var(--emerald-bright);
+}
   .footer-bottom{
     border-top:1px solid var(--line);padding-top:28px;
     text-align:center;color:var(--ink-dimmer);font-size:0.85rem;
