@@ -50,11 +50,13 @@ const closeMobileNav = () => {
   navLinks.classList.remove('open');
   navToggle.classList.remove('open');
   navOverlay.classList.remove('open');
+  navToggle.setAttribute('aria-expanded', 'false');
 };
 const openMobileNav = () => {
   navLinks.classList.add('open');
   navToggle.classList.add('open');
   navOverlay.classList.add('open');
+  navToggle.setAttribute('aria-expanded', 'true');
 };
 
 navToggle.addEventListener('click', () => {
@@ -62,6 +64,7 @@ navToggle.addEventListener('click', () => {
 });
 navOverlay.addEventListener('click', closeMobileNav);
 navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileNav));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMobileNav(); });
 
   /* ============================================================
      HEADER FROSTED-GLASS STATE ON SCROLL
