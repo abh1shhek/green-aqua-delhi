@@ -426,7 +426,7 @@
 .footer-credit a{
   font-style:italic;
   font-weight:500;
-  color:var(--ink);
+  color:var(--ink-dim);
   margin-left:3px;
   transition:color .25s ease;
     text-transform:uppercase;
