@@ -419,12 +419,14 @@
   font-size:0.9rem;
   font-weight:800;
   color:var(--ink);
+  letter-spacing:-0.02em;
 }
 
 .footer-credit a{
   font-style:italic;
-  font-weight:500;
-  color:var(--ink-dim);
+  font-weight:800;
+  color:var(--ink);
+  margin-left:3px;
   transition:color .25s ease;
 }
 
