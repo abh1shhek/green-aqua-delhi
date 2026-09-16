@@ -83,7 +83,10 @@
     filter:drop-shadow(0 2px 10px rgba(0,0,0,0.55));
   }
   .logo em{font-style:italic;font-weight:500;color:var(--ink-dim);}
-  .nav-links{display:flex;gap:40px;align-items:center;}
+  .nav-links{
+    display:flex;gap:40px;align-items:center;margin-left:auto;
+    transform:translateX(min(120px, max(0px, calc((100vw - 1600px) / 2 - 32px))));
+  }
   .nav-links a svg{display:none;}
   .nav-links a{
     font-family:var(--display);
